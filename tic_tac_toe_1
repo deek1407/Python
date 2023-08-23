@@ -1,0 +1,125 @@
+# simple Tic Tac Toe game
+
+import numpy as np
+
+
+# creating and handling board
+
+# default board
+'''default_board = np.array([['...','...','...'],
+                         ['...','...','...'],
+                         ['...','...','...']])
+'''
+
+# shortcut method for creating an array of a x b dimension
+shape = (3,3) # declare a shape of the array
+fill_value = 'x' # declare a value to fill the array
+
+default_board = np.full(shape, fill_value)
+
+# create a dictionary representing the corresponding index of 1-9 into numpy array
+index = {}
+i = 1
+for r in range(0,3):
+    for c in range(0,3):
+        index[i] = [r,c]
+        i += 1
+
+cells = 9
+result = False # False = Draw, True = Win
+
+# p1 turn
+def p1_turn(board, cells):
+    while True:
+#        print('Choose positon for player 1: ')
+        try:
+            p1_pos = int(input('Enter index (1-9) for player A: '))
+            temp_row = index[p1_pos][0]
+            temp_col = index[p1_pos][1]
+            if board[temp_row][temp_col] == 'x':
+                board[temp_row][temp_col] = 'A'
+                print(board)
+                cells -= 1
+                break
+        except:
+            print('Invalid index, pls re-enter')
+            
+# p2 turn
+def p2_turn(board, cells):
+    while True:
+#        print('Choose positon for player 1: ')
+        try:
+            p1_pos = int(input('Enter index (1-9) for player B: '))
+            temp_row = index[p1_pos][0]
+            temp_col = index[p1_pos][1]
+            if board[temp_row][temp_col] == 'x':
+                board[temp_row][temp_col] = 'B'
+                print(board)
+                cells -= 1
+                break
+        except:
+            print('Invalid index, pls re-enter')
+
+def hCheck(board, result):
+    for i in range(0,3):
+        if (board[i][0] == board[i][1]) and (board[i][0] == board[i][2]) and (board[i][1] == board[i][2]):
+            if (board[i][0]) == 'A':
+                print('Winner: A via hCheck')
+                result = True
+                return result
+                break
+            elif (board[i][0] == 'B'):
+                print('Winner: B via hCheck')
+                result = True
+                return result
+                break
+
+def vCheck(board, result):
+    for i in range(0,3):
+        if (board[0][i] == board[1][i]) and (board[0][i] == board[2][i]) and (board[1][i] == board[2][i]):
+            if (board[0][i]) == 'A':
+                print('Winner: A via vCheck')
+                result = True
+                return result
+                break
+            elif (board[0][i] == 'B'):
+                print('Winner: B via vCheck')
+                result = True
+                return result
+                break
+
+
+def drawCheck(board, cells):
+    if (cells == 0) and (result == False):
+        print('Draw')
+        return True
+    
+# program flow
+# 1 print original board    
+# player 1 turn
+# update board
+# check result (win, draw, tie)
+# player 2 turn
+# update board
+# check result (win, draw, tie)
+
+while True:
+    print(default_board)
+    p1_turn(default_board, cells)
+    hCheck(default_board, result)
+    if hCheck(default_board, result) == True:
+        break
+    vCheck(default_board, result)
+    if vCheck(default_board, result) == True:
+        break
+    p2_turn(default_board, cells)
+    hCheck(default_board, result)
+    if hCheck(default_board, result) == True:
+        break
+    vCheck(default_board, result)
+    if vCheck(default_board, result) == True:
+        break
+#    if drawCheck(default_board, result) == True:
+#        drawCheck(default_board, result)
+#        break
+#    
